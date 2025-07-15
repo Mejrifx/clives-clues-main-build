@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import logoImage from '/lovable-uploads/ce0a246f-e8d2-4acf-b500-e46169a2aaf3.png?url';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +60,7 @@ const Navigation = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <img 
-              src={logoImage} 
+              src="/clive-blog-logo.png" 
               alt="Curious Clive" 
               className="h-12 w-auto"
             />
@@ -91,7 +90,7 @@ const Navigation = () => {
                 <div className="flex flex-col space-y-4 mt-6">
                   <div className="flex items-center justify-between">
                     <img 
-                      src={logoImage} 
+                      src="/clive-blog-logo.png" 
                       alt="Curious Clive" 
                       className="h-10 w-auto"
                     />

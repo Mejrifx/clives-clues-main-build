@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ExternalLink } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import heroLogoImage from '/lovable-uploads/6b9a1443-d9b4-4e74-aa18-f16909721759.png?url';
 
 // Force rebuild to clear blogPosts cache
 
@@ -77,7 +76,7 @@ const Index = () => {
         <div className="mx-auto max-w-4xl">
           <div className="flex justify-center mb-6">
             <img 
-              src={heroLogoImage} 
+              src="/clive-blog-logo.png" 
               alt="Curious Clive Logo" 
               className="h-32 md:h-40 w-auto object-contain"
             />
