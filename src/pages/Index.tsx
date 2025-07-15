@@ -115,7 +115,15 @@ const Index = () => {
               className="h-32 md:h-40 w-auto object-contain"
             />
           </div>
-          <p className="text-xl md:text-2xl text-foreground/80 font-medium">
+          <p className="text-xl md:text-2xl font-medium"
+             style={{
+               color: '#000000',
+               textShadow: `
+                 1px 1px 2px rgba(0,0,0,0.3),
+                 -1px -1px 1px rgba(255,255,255,0.2),
+                 0px 0px 4px rgba(0,0,0,0.1)
+               `
+             }}>
             Decoding Abstract Chain | One post at a time
           </p>
         </div>
@@ -131,7 +139,8 @@ const Index = () => {
                   1px 1px 2px rgba(0,0,0,0.4),
                   -1px -1px 2px rgba(255,255,255,0.3),
                   inset 2px 2px 4px rgba(0,0,0,0.3),
-                  0px 0px 8px rgba(0,0,0,0.1)
+                  0px 0px 8px rgba(0,0,0,0.1),
+                  2px 2px 4px rgba(128,128,128,0.3)
                 `
               }}>
             About Curious Clive
