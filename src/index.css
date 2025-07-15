@@ -154,7 +154,7 @@ All colors MUST be HSL.
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    transition: background-position 1200ms ease-in-out;
+    transition: background-position 2800ms ease-in-out;
   }
   
   .group:hover .text-glare-effect {
