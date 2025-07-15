@@ -137,12 +137,20 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   {post.images && post.images.length > 0 && (
-                    <div className="mb-4">
-                      <img 
-                        src={post.images[0]} 
-                        alt={post.title}
-                        className="w-full h-48 object-cover rounded-lg"
-                      />
+                    <div className="mb-6 group cursor-pointer">
+                      <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white/5 to-white/10 p-2 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/20">
+                        <div className="relative overflow-hidden rounded-lg">
+                          <img 
+                            src={post.images[0]} 
+                            alt={post.title}
+                            className="w-full max-h-72 object-contain transition-all duration-500 group-hover:brightness-110"
+                          />
+                          {/* Diagonal Blade Glare Effect */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 transform -translate-x-full opacity-0 group-hover:translate-x-full group-hover:opacity-100 transition-all duration-700 ease-out"></div>
+                        </div>
+                        {/* Premium Frame Glow */}
+                        <div className="absolute inset-0 rounded-xl border border-gradient-to-r from-primary/20 via-white/30 to-primary-blue/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      </div>
                     </div>
                   )}
                   <CardDescription className="text-base md:text-lg text-foreground/70 mb-6 leading-relaxed">
