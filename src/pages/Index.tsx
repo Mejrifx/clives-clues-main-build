@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ExternalLink } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import heroLogoImage from '/lovable-uploads/6b9a1443-d9b4-4e74-aa18-f16909721759.png';
+import heroLogoImage from '/lovable-uploads/6b9a1443-d9b4-4e74-aa18-f16909721759.png?url';
 
 // Force rebuild to clear blogPosts cache
 

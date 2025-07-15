@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import logoImage from '/lovable-uploads/ce0a246f-e8d2-4acf-b500-e46169a2aaf3.png';
+import logoImage from '/lovable-uploads/ce0a246f-e8d2-4acf-b500-e46169a2aaf3.png?url';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
