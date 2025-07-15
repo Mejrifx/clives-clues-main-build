@@ -144,7 +144,7 @@ const BlogPost = () => {
         <article>
           <Card className="glass-card border-0">
             <CardHeader className="pb-6">
-              <CardTitle className="text-3xl md:text-4xl font-bold leading-tight relative group">
+              <CardTitle className="text-3xl md:text-4xl font-bold leading-tight relative">
                 <span className="text-glare-effect">
                   {post.title}
                 </span>

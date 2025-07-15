@@ -158,7 +158,7 @@ All colors MUST be HSL.
     transition: background-position 2800ms ease-in-out;
   }
   
-  .group:hover .text-glare-effect {
+  .text-glare-effect:hover {
     background-position: -50% 50%;
   }
 }
