@@ -139,8 +139,6 @@ All colors MUST be HSL.
   }
   
   .scroll-gradient {
-    background: linear-gradient(180deg, 
-      hsl(var(--background-gradient-start)) 0%, 
-      hsl(var(--background-gradient-end)) 100%);
+    background: #8ad1ed;
   }
 }

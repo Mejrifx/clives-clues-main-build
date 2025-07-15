@@ -19,9 +19,7 @@ const Login = () => {
   });
 
   const dynamicBackgroundStyle = {
-    background: `linear-gradient(180deg, 
-      hsl(203, 73%, 74%) 0%, 
-      hsl(203, 73%, 50%) 100%)`
+    background: '#8ad1ed'
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

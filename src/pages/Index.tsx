@@ -80,15 +80,13 @@ const Index = () => {
 
   const handleGameComplete = async (score: number) => {
     if (selectedBlogForUnlock && score >= 100) {
-      // The unlock will be handled by the useUnlockBlog hook in the game component
-      // After a short delay, navigate to the blog post
-      setTimeout(() => {
-        navigate(`/blog/${selectedBlogForUnlock.id}`);
-        setGameDialogOpen(false);
-        setSelectedBlogForUnlock(null);
-      }, 2000);
+      // Game completed successfully - close dialog and navigate to blog
+      setGameDialogOpen(false);
+      setSelectedBlogForUnlock(null);
+      // Navigate to the blog post (it will show unlocked content)
+      navigate(`/blog/${selectedBlogForUnlock.id}`);
     } else {
-      // Close dialog after failure
+      // Score too low - close dialog after delay
       setTimeout(() => {
         setGameDialogOpen(false);
         setSelectedBlogForUnlock(null);
@@ -102,9 +100,7 @@ const Index = () => {
   };
 
   const dynamicBackgroundStyle = {
-    background: `linear-gradient(180deg, 
-      hsl(203, 73%, ${74 - Math.min(scrollY * 0.01, 15)}%) 0%, 
-      hsl(203, 73%, ${50 - Math.min(scrollY * 0.02, 20)}%) 100%)`
+    background: '#8ad1ed'
   };
 
   return (
@@ -273,6 +269,7 @@ const Index = () => {
           onClose={handleGameClose}
           onComplete={handleGameComplete}
           blogTitle={selectedBlogForUnlock.title}
+          blogId={selectedBlogForUnlock.id}
         />
       )}
     </div>

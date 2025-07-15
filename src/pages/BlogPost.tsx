@@ -71,12 +71,18 @@ const BlogPost = () => {
     if (score >= 100) {
       const success = await unlockBlog(score);
       if (success) {
-        // Blog unlocked, content will update automatically via the hook
+        // Close the game dialog immediately after successful unlock
+        setGameDialogOpen(false);
+        // The hook will automatically update isUnlocked state
+        // and the component will re-render with unlocked content
+      } else {
+        // If unlock failed, close dialog after delay
         setTimeout(() => {
           setGameDialogOpen(false);
-        }, 2000);
+        }, 1000);
       }
     } else {
+      // Score too low, close dialog after delay
       setTimeout(() => {
         setGameDialogOpen(false);
       }, 1000);
@@ -88,12 +94,7 @@ const BlogPost = () => {
   };
 
   const dynamicBackgroundStyle = {
-    background: `
-      radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3), transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15), transparent 50%),
-      radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2), transparent 50%),
-      linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--background)) 100%)
-    `.replace(/\s+/g, ' ').trim()
+    background: '#8ad1ed'
   };
 
   if (loading) {
@@ -288,6 +289,7 @@ const BlogPost = () => {
           onClose={handleGameClose}
           onComplete={handleGameComplete}
           blogTitle={post.title || 'Blog Post'}
+          blogId={post.id}
         />
       )}
     </div>

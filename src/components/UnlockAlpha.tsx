@@ -4,12 +4,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 import { X, Target, Zap, Trophy } from 'lucide-react';
+import { useUnlockBlog } from '@/hooks/useUnlockBlog';
 
 interface UnlockAlphaProps {
   isOpen: boolean;
   onClose: () => void;
   onComplete: (score: number) => void;
   blogTitle: string;
+  blogId: string;
 }
 
 interface Target {
@@ -20,7 +22,8 @@ interface Target {
   points: number;
 }
 
-const UnlockAlpha = ({ isOpen, onClose, onComplete, blogTitle }: UnlockAlphaProps) => {
+const UnlockAlpha = ({ isOpen, onClose, onComplete, blogTitle, blogId }: UnlockAlphaProps) => {
+  const { unlockBlog } = useUnlockBlog(blogId);
   const [gameState, setGameState] = useState<'waiting' | 'playing' | 'finished'>('waiting');
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);
@@ -143,12 +146,33 @@ const UnlockAlpha = ({ isOpen, onClose, onComplete, blogTitle }: UnlockAlphaProp
   // Handle game completion
   useEffect(() => {
     if (gameState === 'finished') {
-      // Wait a moment before showing results
-      setTimeout(() => {
-        onComplete(score);
-      }, 1000);
+      // Handle the unlock logic here
+      const handleUnlock = async () => {
+        if (score >= UNLOCK_THRESHOLD) {
+          // Unlock the blog in the database
+          const success = await unlockBlog(score);
+          if (success) {
+            // Wait a moment before calling onComplete
+            setTimeout(() => {
+              onComplete(score);
+            }, 1000);
+          } else {
+            // If unlock failed, still call onComplete but with a lower score
+            setTimeout(() => {
+              onComplete(0);
+            }, 1000);
+          }
+        } else {
+          // Score too low, call onComplete with actual score
+          setTimeout(() => {
+            onComplete(score);
+          }, 1000);
+        }
+      };
+
+      handleUnlock();
     }
-  }, [gameState, score, onComplete]);
+  }, [gameState, score, onComplete, unlockBlog]);
 
   const progressPercentage = (timeLeft / GAME_DURATION) * 100;
   const scorePercentage = Math.min((score / UNLOCK_THRESHOLD) * 100, 100);
