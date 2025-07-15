@@ -144,11 +144,11 @@ const BlogPost = () => {
         <article>
           <Card className="glass-card border-0">
             <CardHeader className="pb-6">
-              <CardTitle className="text-3xl md:text-4xl font-bold text-black leading-tight relative group overflow-hidden">
-                <span className="relative z-10 transition-all duration-300">
+              <CardTitle className="text-3xl md:text-4xl font-bold text-black leading-tight relative group">
+                <span className="relative z-10 transition-all duration-300 inline-block overflow-hidden">
                   {post.title}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" style={{left: '-2px', right: '-2px'}}></div>
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
               </CardTitle>
               <div className="flex items-center gap-6 text-muted-foreground mt-4">
                 <div className="flex items-center gap-2">
