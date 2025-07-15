@@ -80,7 +80,7 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
   };
 
   return (
-    <Card className="glass-card border-0 transition-all duration-300 hover:scale-[1.02]">
+    <Card className="glass-card border-0 transition-all duration-300 hover:scale-[1.02] mx-2 sm:mx-0">
       <CardHeader>
         <div className="flex justify-between items-start mb-2">
           <CardTitle className="text-2xl md:text-3xl font-bold text-black relative group overflow-hidden cursor-pointer">
@@ -133,14 +133,12 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
         <CardDescription className="text-base md:text-lg text-foreground/70 mb-6 leading-relaxed">
           {post.summary}
         </CardDescription>
-        <div className="flex items-center gap-2 sm:gap-4 w-full">
-          <div className="flex-1 min-w-0">
-            {renderButton()}
-          </div>
+        <div className="flex items-end gap-3 w-full">
+          {renderButton()}
           <img 
             src="/lovable-uploads/0aeeda89-42d2-40a0-a002-0fc3c823c55c.png" 
             alt="Clive Verified" 
-            className="h-8 sm:h-12 w-auto object-contain flex-shrink-0 -translate-y-[3px] sm:-translate-y-[5px] translate-x-[2px] sm:translate-x-[4px] transition-transform duration-300 hover:scale-125 cursor-pointer"
+            className="h-9 sm:h-12 w-auto object-contain flex-shrink-0 -translate-y-[5px] transition-transform duration-300 hover:scale-125 cursor-pointer"
           />
         </div>
       </CardContent>
