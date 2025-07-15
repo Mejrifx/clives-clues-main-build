@@ -44,12 +44,92 @@ export type Database = {
         }
         Relationships: []
       }
+      unlocked_blogs: {
+        Row: {
+          id: string
+          user_id: string
+          blog_id: string
+          unlocked_at: string
+          game_score: number
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          blog_id: string
+          unlocked_at?: string
+          game_score: number
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          blog_id?: string
+          unlocked_at?: string
+          game_score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "unlocked_blogs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "unlocked_blogs_blog_id_fkey"
+            columns: ["blog_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      user_profiles: {
+        Row: {
+          id: string
+          username: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          username?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          username?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_unlocked_blog: {
+        Args: {
+          blog_id: string
+        }
+        Returns: boolean
+      }
+      unlock_blog: {
+        Args: {
+          blog_id: string
+          score: number
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
