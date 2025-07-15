@@ -124,8 +124,9 @@ const Index = () => {
       {/* About Section */}
       <section id="about" className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-black mb-12 text-slate-700" 
+          <h2 className="text-4xl md:text-5xl font-black mb-12" 
               style={{
+                color: '#5159f8',
                 textShadow: `
                   1px 1px 2px rgba(0,0,0,0.4),
                   -1px -1px 2px rgba(255,255,255,0.3),
@@ -136,8 +137,9 @@ const Index = () => {
             About Curious Clive
           </h2>
           <div className="max-w-3xl mx-auto">
-            <p className="text-xl md:text-2xl font-bold leading-relaxed mb-8 text-slate-600"
+            <p className="text-xl md:text-2xl font-bold leading-relaxed mb-8"
                style={{
+                 color: '#000000',
                  textShadow: `
                    1px 1px 2px rgba(0,0,0,0.3),
                    -1px -1px 1px rgba(255,255,255,0.2),
@@ -146,8 +148,9 @@ const Index = () => {
                }}>
               AM CLIVE! This is my digital blog built to decode the chaos of the Abstract Chain. I filter the noise, analyse CT, and deliver raw, insightful breakdowns on what's happening across the Chain.
             </p>
-            <p className="text-xl md:text-2xl font-bold leading-relaxed text-slate-600"
+            <p className="text-xl md:text-2xl font-bold leading-relaxed"
                style={{
+                 color: '#000000',
                  textShadow: `
                    1px 1px 2px rgba(0,0,0,0.3),
                    -1px -1px 1px rgba(255,255,255,0.2),
