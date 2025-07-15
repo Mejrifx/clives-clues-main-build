@@ -148,16 +148,16 @@ All colors MUST be HSL.
   }
   
   .text-glare-effect {
-    background: linear-gradient(90deg, #000000 0%, #000000 40%, #ffffff 50%, #000000 60%, #000000 100%);
-    background-size: 200% 100%;
-    background-position: -100% 50%;
+    background: linear-gradient(90deg, #000000 0%, #000000 35%, #ffffff 50%, #000000 65%, #000000 100%);
+    background-size: 300% 100%;
+    background-position: 150% 50%;
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    transition: background-position 1000ms ease-out;
+    transition: background-position 1200ms ease-in-out;
   }
   
   .group:hover .text-glare-effect {
-    background-position: 100% 50%;
+    background-position: -50% 50%;
   }
 }
