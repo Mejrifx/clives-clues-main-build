@@ -130,15 +130,15 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
             </div>
           </div>
         )}
-        <CardDescription className="text-base md:text-lg text-foreground/70 mb-6 leading-relaxed">
+        <CardDescription className="text-base md:text-lg text-foreground/70 mb-6 leading-relaxed break-words overflow-hidden">
           {post.summary}
         </CardDescription>
-        <div className="flex items-end gap-3 w-full">
+        <div className="flex items-end justify-between px-4 sm:px-0 sm:gap-3 sm:justify-start w-full">
           {renderButton()}
           <img 
             src="/lovable-uploads/0aeeda89-42d2-40a0-a002-0fc3c823c55c.png" 
             alt="Clive Verified" 
-            className="h-10 sm:h-12 w-auto object-contain flex-shrink-0 -translate-y-[5px] translate-x-[2px] sm:-translate-y-[3px] sm:translate-x-[3px] transition-transform duration-300 hover:scale-125 cursor-pointer"
+            className="h-10 sm:h-12 w-auto object-contain flex-shrink-0 -translate-y-[5px] sm:-translate-y-[3px] sm:translate-x-[3px] transition-transform duration-300 hover:scale-125 cursor-pointer"
           />
         </div>
       </CardContent>
