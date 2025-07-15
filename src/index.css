@@ -154,7 +154,7 @@ All colors MUST be HSL.
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: text-glare 4s ease-in-out infinite;
+    animation: text-glare 5.5s ease-in-out infinite;
   }
   
   @keyframes text-glare {
