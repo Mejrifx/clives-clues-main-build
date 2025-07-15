@@ -116,7 +116,7 @@ const Index = () => {
             />
           </div>
           <p className="text-xl md:text-2xl text-foreground/80 font-medium">
-            Decoding The Abstract Chain | One post at a time
+            Decoding Abstract Chain | One post at a time
           </p>
         </div>
       </header>
@@ -124,13 +124,13 @@ const Index = () => {
       {/* About Section */}
       <section id="about" className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="glass-card border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer mb-8 px-8 py-4 relative group overflow-hidden rounded-full inline-block">
+          <div className="glass-card border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl mb-8 px-8 py-4 relative group overflow-hidden rounded-full inline-block">
             <h2 className="text-3xl md:text-4xl font-black mb-0 bg-gradient-to-r from-primary to-primary-blue bg-clip-text text-transparent whitespace-nowrap">
               About Curious Clive
             </h2>
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out rounded-full"></div>
           </div>
-          <Card className="glass-card border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer relative group overflow-hidden">
+          <Card className="glass-card border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl relative group overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
             <CardContent className="p-8 md:p-12 relative z-10">
               <div className="prose prose-lg max-w-none text-center">

@@ -83,7 +83,7 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
     <Card className="glass-card border-0 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-primary/10 mx-auto w-[85vw] sm:w-[80vw] lg:w-[75vw] max-w-4xl backdrop-blur-lg border border-white/20 shadow-xl shadow-black/5">
       <CardHeader>
         <div className="flex justify-between items-start mb-2">
-          <CardTitle className="text-2xl md:text-3xl font-bold text-black relative group overflow-hidden cursor-pointer">
+          <CardTitle className="text-2xl md:text-3xl font-bold text-black relative group overflow-hidden">
             <span className="relative z-10 transition-all duration-300">
               {post.title}
             </span>
@@ -114,7 +114,7 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
       </CardHeader>
       <CardContent>
         {post.images && post.images.length > 0 && (
-          <div className="mb-6 group cursor-pointer w-full max-w-sm sm:max-w-md mx-auto">
+          <div className="mb-6 group w-full max-w-sm sm:max-w-md mx-auto">
             <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white/5 to-white/10 p-2 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/20">
               <div className="relative overflow-hidden rounded-lg aspect-[4/3]">
                 <img 
