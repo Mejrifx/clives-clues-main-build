@@ -5,13 +5,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Lock, Unlock } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import BlogCard from '@/components/BlogCard';
+import UnlockAlpha from '@/components/UnlockAlpha';
 
 // Force rebuild to clear blogPosts cache
 
 const Index = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [scrollY, setScrollY] = useState(0);
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -21,6 +25,8 @@ const Index = () => {
     email: '',
     website: ''
   });
+  const [gameDialogOpen, setGameDialogOpen] = useState(false);
+  const [selectedBlogForUnlock, setSelectedBlogForUnlock] = useState<any>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -61,6 +67,38 @@ const Index = () => {
     e.preventDefault();
     // Form submission logic will be added later
     console.log('Form submitted:', formData);
+  };
+
+  const handleUnlockClick = (post: any) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    setSelectedBlogForUnlock(post);
+    setGameDialogOpen(true);
+  };
+
+  const handleGameComplete = async (score: number) => {
+    if (selectedBlogForUnlock && score >= 100) {
+      // The unlock will be handled by the useUnlockBlog hook in the game component
+      // After a short delay, navigate to the blog post
+      setTimeout(() => {
+        navigate(`/blog/${selectedBlogForUnlock.id}`);
+        setGameDialogOpen(false);
+        setSelectedBlogForUnlock(null);
+      }, 2000);
+    } else {
+      // Close dialog after failure
+      setTimeout(() => {
+        setGameDialogOpen(false);
+        setSelectedBlogForUnlock(null);
+      }, 1000);
+    }
+  };
+
+  const handleGameClose = () => {
+    setGameDialogOpen(false);
+    setSelectedBlogForUnlock(null);
   };
 
   const dynamicBackgroundStyle = {
@@ -121,58 +159,11 @@ const Index = () => {
             <div className="text-center text-foreground/70">No posts found.</div>
           ) : (
             posts.map((post) => (
-              <Card key={post.id} className="glass-card border-0 transition-all duration-300 hover:scale-[1.02]">
-                <CardHeader>
-                  <div className="flex justify-between items-start mb-2">
-                    <CardTitle className="text-2xl md:text-3xl font-bold text-black relative group overflow-hidden cursor-pointer">
-                      <span className="relative z-10 transition-all duration-300">
-                        {post.title}
-                      </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
-                    </CardTitle>
-                  </div>
-                  <div className="flex gap-4 text-sm text-muted-foreground">
-                    <span>{new Date(post.created_at).toLocaleDateString()}</span>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  {post.images && post.images.length > 0 && (
-                    <div className="mb-6 group cursor-pointer max-w-md mx-auto">
-                      <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white/5 to-white/10 p-2 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/20">
-                        <div className="relative overflow-hidden rounded-lg aspect-[4/3]">
-                          <img 
-                            src={post.images[0]} 
-                            alt={post.title}
-                            className="w-full h-full object-cover transition-all duration-500 group-hover:brightness-110"
-                          />
-                          {/* Diagonal Blade Glare Effect - Contained within image */}
-                          <div className="absolute inset-1 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-6 transform -translate-x-full opacity-0 group-hover:translate-x-full group-hover:opacity-100 transition-all duration-700 ease-out"></div>
-                        </div>
-                        {/* Premium Frame Glow */}
-                        <div className="absolute inset-0 rounded-xl border border-gradient-to-r from-primary/20 via-white/30 to-primary-blue/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      </div>
-                    </div>
-                  )}
-                  <CardDescription className="text-base md:text-lg text-foreground/70 mb-6 leading-relaxed">
-                    {post.summary}
-                  </CardDescription>
-                  <div className="flex items-center gap-4">
-                    <Button 
-                      onClick={() => navigate(`/blog/${post.id}`)}
-                      variant="default" 
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
-                    >
-                      Read more 
-                      <ExternalLink className="ml-2 h-4 w-4" />
-                    </Button>
-                    <img 
-                      src="/lovable-uploads/0aeeda89-42d2-40a0-a002-0fc3c823c55c.png" 
-                      alt="Clive Verified" 
-                      className="h-12 w-auto object-contain -translate-y-[5px] translate-x-[4px] transition-transform duration-300 hover:scale-125 cursor-pointer"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
+              <BlogCard 
+                key={post.id} 
+                post={post} 
+                onUnlockClick={handleUnlockClick}
+              />
             ))
           )}
         </div>
@@ -274,6 +265,16 @@ const Index = () => {
           . Exploring Abstract Chain together.
         </p>
       </footer>
+
+      {/* Unlock Alpha Game Dialog */}
+      {selectedBlogForUnlock && (
+        <UnlockAlpha
+          isOpen={gameDialogOpen}
+          onClose={handleGameClose}
+          onComplete={handleGameComplete}
+          blogTitle={selectedBlogForUnlock.title}
+        />
+      )}
     </div>
   );
 };

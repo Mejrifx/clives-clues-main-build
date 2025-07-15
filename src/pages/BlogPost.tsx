@@ -2,9 +2,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Calendar, User } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Lock, Unlock } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import type { Tables } from '@/integrations/supabase/types';
+import { useAuth } from '@/contexts/AuthContext';
+import { useUnlockBlog } from '@/hooks/useUnlockBlog';
+import UnlockAlpha from '@/components/UnlockAlpha';
 
 // Clear cache for Clock error fix
 
@@ -13,9 +16,14 @@ type BlogPost = Tables<'posts'>;
 const BlogPost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [gameDialogOpen, setGameDialogOpen] = useState(false);
+  
+  // Use the unlock hook only if we have an ID
+  const { isUnlocked, loading: unlockLoading, unlockBlog } = useUnlockBlog(id || '');
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -50,6 +58,34 @@ const BlogPost = () => {
 
     fetchPost();
   }, [id]);
+
+  const handleUnlockClick = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    setGameDialogOpen(true);
+  };
+
+  const handleGameComplete = async (score: number) => {
+    if (score >= 100) {
+      const success = await unlockBlog(score);
+      if (success) {
+        // Blog unlocked, content will update automatically via the hook
+        setTimeout(() => {
+          setGameDialogOpen(false);
+        }, 2000);
+      }
+    } else {
+      setTimeout(() => {
+        setGameDialogOpen(false);
+      }, 1000);
+    }
+  };
+
+  const handleGameClose = () => {
+    setGameDialogOpen(false);
+  };
 
   const dynamicBackgroundStyle = {
     background: `
@@ -125,27 +161,110 @@ const BlogPost = () => {
               </div>
             </CardHeader>
             <CardContent className="prose prose-lg max-w-none">
+              {/* Always show first image */}
               {post.images && post.images.length > 0 && (
                 <div className="mb-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {post.images.map((imageUrl, index) => (
-                      <img
-                        key={index}
-                        src={imageUrl}
-                        alt={`${post.title} - Image ${index + 1}`}
-                        className="w-full h-64 object-cover rounded-lg shadow-lg"
-                      />
-                    ))}
-                  </div>
+                  <img
+                    src={post.images[0]}
+                    alt={`${post.title} - Preview`}
+                    className="w-full max-w-md mx-auto h-64 object-cover rounded-lg shadow-lg"
+                  />
                 </div>
               )}
-              <div 
-                className="text-foreground/80 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: post.content }}
-                style={{
-                  lineHeight: '1.7',
-                }}
-              />
+
+              {/* Always show summary */}
+              <div className="text-foreground/80 leading-relaxed mb-6 text-lg">
+                {post.summary}
+              </div>
+
+              {/* Content gating based on unlock status */}
+              {unlockLoading ? (
+                <div className="text-center py-8">
+                  <div className="animate-pulse">
+                    <div className="h-4 bg-muted rounded w-full mb-2"></div>
+                    <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
+                    <div className="h-4 bg-muted rounded w-1/2"></div>
+                  </div>
+                </div>
+              ) : !user ? (
+                // Not authenticated
+                <Card className="glass-card border-orange-200 bg-orange-50/50 p-6 text-center">
+                  <div className="space-y-4">
+                    <Lock className="h-12 w-12 mx-auto text-orange-600" />
+                    <div>
+                      <h3 className="text-xl font-bold text-orange-700 mb-2">
+                        🔒 Full Content Locked
+                      </h3>
+                      <p className="text-orange-600">
+                        Sign in and complete the Unlock Alpha challenge to read the full blog post!
+                      </p>
+                    </div>
+                    <Button 
+                      onClick={() => navigate('/login')}
+                      className="bg-orange-600 hover:bg-orange-700 text-white font-medium"
+                    >
+                      Sign In to Unlock
+                    </Button>
+                  </div>
+                </Card>
+              ) : !isUnlocked ? (
+                // Authenticated but not unlocked
+                <Card className="glass-card border-orange-200 bg-orange-50/50 p-6 text-center">
+                  <div className="space-y-4">
+                    <Lock className="h-12 w-12 mx-auto text-orange-600" />
+                    <div>
+                      <h3 className="text-xl font-bold text-orange-700 mb-2">
+                        🎯 Ready for the Challenge?
+                      </h3>
+                      <p className="text-orange-600">
+                        Complete the Unlock Alpha mini-game to access the full content!
+                      </p>
+                    </div>
+                    <Button 
+                      onClick={handleUnlockClick}
+                      className="bg-orange-600 hover:bg-orange-700 text-white font-medium px-8 py-3 text-lg"
+                    >
+                      🎯 Unlock Alpha
+                      <Lock className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </Card>
+              ) : (
+                // Unlocked - show full content
+                <div className="space-y-6">
+                  <Card className="glass-card border-green-200 bg-green-50/50 p-4 text-center">
+                    <div className="flex items-center justify-center gap-2 text-green-700">
+                      <Unlock className="h-5 w-5" />
+                      <span className="font-medium">✅ Content Unlocked! Enjoy the full article.</span>
+                    </div>
+                  </Card>
+
+                  {/* Show all images if unlocked */}
+                  {post.images && post.images.length > 1 && (
+                    <div className="mb-8">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {post.images.slice(1).map((imageUrl, index) => (
+                          <img
+                            key={index + 1}
+                            src={imageUrl}
+                            alt={`${post.title} - Image ${index + 2}`}
+                            className="w-full h-64 object-cover rounded-lg shadow-lg"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Full content */}
+                  <div 
+                    className="text-foreground/80 leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: post.content || '' }}
+                    style={{
+                      lineHeight: '1.7',
+                    }}
+                  />
+                </div>
+              )}
             </CardContent>
           </Card>
         </article>
@@ -161,6 +280,16 @@ const BlogPost = () => {
           </Button>
         </div>
       </div>
+
+      {/* Unlock Alpha Game Dialog */}
+      {post && (
+        <UnlockAlpha
+          isOpen={gameDialogOpen}
+          onClose={handleGameClose}
+          onComplete={handleGameComplete}
+          blogTitle={post.title || 'Blog Post'}
+        />
+      )}
     </div>
   );
 };
