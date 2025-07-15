@@ -80,7 +80,7 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
   };
 
   return (
-    <Card className="glass-card border-0 transition-all duration-300 hover:scale-[1.02] mx-auto sm:mx-0 w-[85vw] sm:w-auto">
+    <Card className="glass-card border-0 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-primary/10 mx-auto w-[85vw] sm:w-[80vw] lg:w-[75vw] max-w-4xl backdrop-blur-lg border border-white/20 shadow-xl shadow-black/5">
       <CardHeader>
         <div className="flex justify-between items-start mb-2">
           <CardTitle className="text-2xl md:text-3xl font-bold text-black relative group overflow-hidden cursor-pointer">
