@@ -124,25 +124,39 @@ const Index = () => {
       {/* About Section */}
       <section id="about" className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="glass-card border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl mb-8 px-8 py-4 relative group overflow-hidden rounded-full inline-block">
-            <h2 className="text-3xl md:text-4xl font-black mb-0 bg-gradient-to-r from-primary to-primary-blue bg-clip-text text-transparent whitespace-nowrap">
-              About Curious Clive
-            </h2>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out rounded-full"></div>
+          <h2 className="text-4xl md:text-5xl font-black mb-12 text-slate-700" 
+              style={{
+                textShadow: `
+                  1px 1px 2px rgba(0,0,0,0.4),
+                  -1px -1px 2px rgba(255,255,255,0.3),
+                  inset 2px 2px 4px rgba(0,0,0,0.3),
+                  0px 0px 8px rgba(0,0,0,0.1)
+                `
+              }}>
+            About Curious Clive
+          </h2>
+          <div className="max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl font-bold leading-relaxed mb-8 text-slate-600"
+               style={{
+                 textShadow: `
+                   1px 1px 2px rgba(0,0,0,0.3),
+                   -1px -1px 1px rgba(255,255,255,0.2),
+                   0px 0px 4px rgba(0,0,0,0.1)
+                 `
+               }}>
+              AM CLIVE! This is my digital blog built to decode the chaos of the Abstract Chain. I filter the noise, analyse CT, and deliver raw, insightful breakdowns on what's happening across the Chain.
+            </p>
+            <p className="text-xl md:text-2xl font-bold leading-relaxed text-slate-600"
+               style={{
+                 textShadow: `
+                   1px 1px 2px rgba(0,0,0,0.3),
+                   -1px -1px 1px rgba(255,255,255,0.2),
+                   0px 0px 4px rgba(0,0,0,0.1)
+                 `
+               }}>
+              Whether you're a seasoned trencher or a curious reader, I've got clues you don't want to miss, always remember am Curious Clive...
+            </p>
           </div>
-          <Card className="glass-card border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl relative group overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
-            <CardContent className="p-8 md:p-12 relative z-10">
-              <div className="prose prose-lg max-w-none text-center">
-                <p className="text-lg md:text-xl leading-relaxed text-black mb-6">
-                  AM CLIVE! This is my digital blog built to decode the chaos of the Abstract Chain. I filter the noise, analyse CT, and deliver raw, insightful breakdowns on what's happening across the Chain.
-                </p>
-                <p className="text-lg md:text-xl leading-relaxed text-black">
-                  Whether you're a seasoned trencher or a curious reader, I've got clues you don't want to miss, always remember am Curious Clive...
-                </p>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </section>
 
