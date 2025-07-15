@@ -116,7 +116,7 @@ const Index = () => {
             />
           </div>
           <p className="text-xl md:text-2xl text-foreground/80 font-medium">
-            Decoding Abstract Chain, one post at a time
+            Decoding The Abstract Chain | One post at a time
           </p>
         </div>
       </header>
@@ -135,10 +135,10 @@ const Index = () => {
             <CardContent className="p-8 md:p-12 relative z-10">
               <div className="prose prose-lg max-w-none text-center">
                 <p className="text-lg md:text-xl leading-relaxed text-black mb-6">
-                  This is my digital blog built to decode the chaos of the Abstract Chain. We filter the noise, analyse CT, and deliver raw, insightful breakdowns on what's happening across the Abstract Chain.
+                  AM CLIVE! This is my digital blog built to decode the chaos of the Abstract Chain. I filter the noise, analyse CT, and deliver raw, insightful breakdowns on what's happening across the Chain.
                 </p>
                 <p className="text-lg md:text-xl leading-relaxed text-black">
-                  Whether you're a seasoned trencher or a curious reader, I've got clues you don't want to miss, remember i'm Curious Clive...
+                  Whether you're a seasoned trencher or a curious reader, I've got clues you don't want to miss, always remember am Curious Clive...
                 </p>
               </div>
             </CardContent>
@@ -251,7 +251,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="container mx-auto px-4 py-8 text-center">
         <p className="text-foreground/60">
-          © 2024{' '}
+          © 2025{' '}
           <Link 
             to="/admin" 
             className="hover:text-foreground transition-colors cursor-pointer"
