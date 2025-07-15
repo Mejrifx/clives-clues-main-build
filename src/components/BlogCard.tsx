@@ -73,7 +73,7 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
         variant="default" 
         className="bg-orange-600 hover:bg-orange-700 text-white font-medium"
       >
-        🎯 Unlock Alpha
+                        Unlock Alpha
         <Lock className="ml-2 h-4 w-4" />
       </Button>
     );

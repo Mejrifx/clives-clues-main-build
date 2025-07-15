@@ -193,19 +193,19 @@ const BlogPost = () => {
                   <div className="space-y-4">
                     <Lock className="h-12 w-12 mx-auto text-orange-600" />
                     <div>
-                      <h3 className="text-xl font-bold text-orange-700 mb-2">
-                        🔒 Full Content Locked
-                      </h3>
-                      <p className="text-orange-600">
-                        Sign in and complete the Unlock Alpha challenge to read the full blog post!
+                      <p className="text-lg text-center text-black/70 mb-6">
+                        Full Content Locked
                       </p>
+                      <p className="text-base text-center text-black/60 mb-8">
+                        Complete the challenge to unlock this content
+                      </p>
+                      <Button 
+                        onClick={() => navigate('/login')}
+                        className="bg-orange-600 hover:bg-orange-700 text-white font-medium"
+                      >
+                        Sign In to Unlock
+                      </Button>
                     </div>
-                    <Button 
-                      onClick={() => navigate('/login')}
-                      className="bg-orange-600 hover:bg-orange-700 text-white font-medium"
-                    >
-                      Sign In to Unlock
-                    </Button>
                   </div>
                 </Card>
               ) : !isUnlocked ? (
@@ -215,7 +215,7 @@ const BlogPost = () => {
                     <Lock className="h-12 w-12 mx-auto text-orange-600" />
                     <div>
                       <h3 className="text-xl font-bold text-orange-700 mb-2">
-                        🎯 Ready for the Challenge?
+                        Ready for the Challenge?
                       </h3>
                       <p className="text-orange-600">
                         Complete the Unlock Alpha mini-game to access the full content!
@@ -225,8 +225,8 @@ const BlogPost = () => {
                       onClick={handleUnlockClick}
                       className="bg-orange-600 hover:bg-orange-700 text-white font-medium px-8 py-3 text-lg"
                     >
-                      🎯 Unlock Alpha
-                      <Lock className="ml-2 h-4 w-4" />
+                      Unlock Alpha
+                    <Lock className="ml-2 h-4 w-4" />
                     </Button>
                   </div>
                 </Card>
@@ -236,7 +236,7 @@ const BlogPost = () => {
                   <Card className="glass-card border-green-200 bg-green-50/50 p-4 text-center">
                     <div className="flex items-center justify-center gap-2 text-green-700">
                       <Unlock className="h-5 w-5" />
-                      <span className="font-medium">✅ Content Unlocked! Enjoy the full article.</span>
+                      <span className="font-medium">Content Unlocked! Enjoy the full article.</span>
                     </div>
                   </Card>
 

@@ -182,7 +182,7 @@ const UnlockAlpha = ({ isOpen, onClose, onComplete, blogTitle, blogId }: UnlockA
       <DialogContent className="max-w-4xl h-[80vh] p-0">
         <DialogHeader className="p-6 pb-4">
           <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-blue bg-clip-text text-transparent">
-            🎯 Unlock Alpha Challenge
+            Unlock Alpha Challenge
           </DialogTitle>
           <DialogDescription className="text-lg">
             Score {UNLOCK_THRESHOLD}+ points to unlock: "{blogTitle}"
@@ -300,7 +300,7 @@ const UnlockAlpha = ({ isOpen, onClose, onComplete, blogTitle, blogId }: UnlockA
                   {score >= UNLOCK_THRESHOLD ? (
                     <>
                       <Trophy className="h-16 w-16 mx-auto text-yellow-500" />
-                      <CardTitle className="text-2xl text-green-600">🎉 Challenge Complete!</CardTitle>
+                      <CardTitle className="text-2xl text-green-600">Challenge Complete!</CardTitle>
                       <CardDescription className="text-lg">
                         Congratulations! You scored {score} points and unlocked the blog!
                       </CardDescription>

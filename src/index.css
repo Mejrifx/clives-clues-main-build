@@ -120,6 +120,11 @@ All colors MUST be HSL.
     min-height: 100vh;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
+  
+  html, body {
+    background: #8ad1ed;
+    height: 100%;
+  }
 }
 
 @layer components {

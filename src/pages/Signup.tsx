@@ -98,7 +98,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen w-full pb-8" style={dynamicBackgroundStyle}>
+    <div className="w-full pb-8" style={{ background: '#8ad1ed', minHeight: '100vh', height: 'auto' }}>
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-md mx-auto">
           <Link 
