@@ -24,6 +24,21 @@ const Admin = () => {
   const [showPreview, setShowPreview] = useState(false);
   const { toast } = useToast();
 
+  // Check if user is already authenticated on page load
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user?.email === 'cliveonabs@outlook.com') {
+        setIsLoggedIn(true);
+        fetchPosts();
+      } else {
+        setLoadingPosts(false);
+      }
+    };
+    
+    checkAuth();
+  }, []);
+
   // Fetch posts when logged in
   const fetchPosts = async () => {
     try {
@@ -44,11 +59,27 @@ const Admin = () => {
     }
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Secure login - only allow specific admin credentials
-    if (loginForm.email === 'cliveonabs@outlook.com' && loginForm.password === 'CliveAdmin123!') {
-      setIsLoggedIn(true);
+    
+    try {
+      // Authenticate with Supabase instead of hardcoded check
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: loginForm.email,
+        password: loginForm.password,
+      });
+
+      if (error) {
+        toast({
+          title: "Login Failed",
+          description: "Invalid email or password. Access denied.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (data.user && data.user.email === 'cliveonabs@outlook.com') {
+        setIsLoggedIn(true);
         toast({
           title: "Success!",
           description: "Welcome back, Admin.",
@@ -56,9 +87,38 @@ const Admin = () => {
         // Fetch posts after successful login
         fetchPosts();
       } else {
+        // Sign out if not the admin user
+        await supabase.auth.signOut();
+        toast({
+          title: "Access Denied",
+          description: "Admin access required.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Login error:', error);
       toast({
         title: "Login Failed",
-        description: "Invalid email or password. Access denied.",
+        description: "An error occurred during login. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      setIsLoggedIn(false);
+      setLoginForm({ email: '', password: '' });
+      toast({
+        title: "Logged Out",
+        description: "You have been successfully logged out.",
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast({
+        title: "Logout Error",
+        description: "An error occurred during logout.",
         variant: "destructive",
       });
     }
@@ -363,7 +423,7 @@ const Admin = () => {
                 Back to Site
               </Button>
             </Link>
-            <Button variant="outline" onClick={() => setIsLoggedIn(false)}>
+            <Button variant="outline" onClick={handleLogout}>
               Logout
             </Button>
           </div>

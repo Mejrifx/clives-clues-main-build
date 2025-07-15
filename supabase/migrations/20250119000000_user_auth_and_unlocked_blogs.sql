@@ -44,6 +44,19 @@ CREATE POLICY "Users can insert their own unlock records" ON public.unlocked_blo
 CREATE POLICY "Anyone can view post previews" ON public.posts
   FOR SELECT USING (true);
 
+-- Add RLS policies for posts table management
+-- Allow authenticated users to insert posts (for admin functionality)
+CREATE POLICY "Authenticated users can insert posts" ON public.posts
+  FOR INSERT WITH CHECK (auth.uid() IS NOT NULL);
+
+-- Allow authenticated users to update posts (for admin functionality) 
+CREATE POLICY "Authenticated users can update posts" ON public.posts
+  FOR UPDATE USING (auth.uid() IS NOT NULL);
+
+-- Allow authenticated users to delete posts (for admin functionality)
+CREATE POLICY "Authenticated users can delete posts" ON public.posts
+  FOR DELETE USING (auth.uid() IS NOT NULL);
+
 -- Function to automatically create user profile on signup
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
@@ -81,3 +94,29 @@ BEGIN
   RETURN true;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER; 
+
+-- Create posts table for blog content
+CREATE TABLE public.posts (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  title TEXT NOT NULL,
+  summary TEXT NOT NULL,
+  content TEXT NOT NULL,
+  images TEXT[] DEFAULT '{}',
+  is_ai_generated BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create updated_at trigger
+CREATE OR REPLACE FUNCTION public.update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_posts_updated_at 
+    BEFORE UPDATE ON public.posts 
+    FOR EACH ROW 
+    EXECUTE FUNCTION public.update_updated_at_column(); 
