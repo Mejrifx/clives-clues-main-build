@@ -137,7 +137,7 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   {post.images && post.images.length > 0 && (
-                    <div className="mb-6 group cursor-pointer">
+                    <div className="mb-6 group cursor-pointer max-w-md mx-auto">
                       <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white/5 to-white/10 p-2 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/20">
                         <div className="relative overflow-hidden rounded-lg aspect-[4/3]">
                           <img 
