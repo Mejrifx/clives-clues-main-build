@@ -154,15 +154,18 @@ All colors MUST be HSL.
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: text-glare 3.5s ease-in-out infinite;
+    animation: text-glare 4s ease-in-out infinite;
   }
   
   @keyframes text-glare {
-    0%, 80% {
+    0% {
       background-position: 150% 50%;
     }
-    40% {
+    25% {
       background-position: -50% 50%;
+    }
+    25.1%, 100% {
+      background-position: 150% 50%;
     }
   }
 }
