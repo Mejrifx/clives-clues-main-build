@@ -161,10 +161,10 @@ All colors MUST be HSL.
     0% {
       background-position: 150% 50%;
     }
-    25% {
+    50% {
       background-position: -50% 50%;
     }
-    25.1%, 100% {
+    50.1%, 100% {
       background-position: 150% 50%;
     }
   }
