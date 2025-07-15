@@ -146,4 +146,18 @@ All colors MUST be HSL.
   .scroll-gradient {
     background: #8ad1ed;
   }
+  
+  .text-glare-effect {
+    background: linear-gradient(90deg, #000000 0%, #000000 40%, #ffffff 50%, #000000 60%, #000000 100%);
+    background-size: 200% 100%;
+    background-position: -100% 50%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    transition: background-position 1000ms ease-out;
+  }
+  
+  .group:hover .text-glare-effect {
+    background-position: 100% 50%;
+  }
 }
