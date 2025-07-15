@@ -70,7 +70,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen w-full pb-8 fixed inset-0 overflow-auto" style={dynamicBackgroundStyle}>
+    <div className="min-h-screen w-full pb-8" style={dynamicBackgroundStyle}>
       {/* Header Section */}
       <header className="container mx-auto px-4 py-16 pt-24 text-center">
         <div className="mx-auto max-w-4xl">
