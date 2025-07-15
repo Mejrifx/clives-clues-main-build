@@ -128,7 +128,7 @@ const BlogPost = () => {
 
 
   return (
-    <div className="min-h-screen w-full pb-8 fixed inset-0 overflow-auto" style={dynamicBackgroundStyle}>
+    <div className="min-h-screen w-full pb-8 fixed inset-0 overflow-auto overflow-x-hidden" style={dynamicBackgroundStyle}>
       <div className="container mx-auto px-4 py-8 max-w-4xl relative z-10">
         {/* Back Button */}
         <Button 

@@ -114,7 +114,7 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
       </CardHeader>
       <CardContent>
         {post.images && post.images.length > 0 && (
-          <div className="mb-6 group cursor-pointer max-w-md mx-auto">
+          <div className="mb-6 group cursor-pointer w-full max-w-sm sm:max-w-md mx-auto">
             <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white/5 to-white/10 p-2 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/20">
               <div className="relative overflow-hidden rounded-lg aspect-[4/3]">
                 <img 
@@ -133,12 +133,14 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
         <CardDescription className="text-base md:text-lg text-foreground/70 mb-6 leading-relaxed">
           {post.summary}
         </CardDescription>
-        <div className="flex items-center gap-4">
-          {renderButton()}
+        <div className="flex items-center gap-2 sm:gap-4 w-full">
+          <div className="flex-1 min-w-0">
+            {renderButton()}
+          </div>
           <img 
             src="/lovable-uploads/0aeeda89-42d2-40a0-a002-0fc3c823c55c.png" 
             alt="Clive Verified" 
-            className="h-12 w-auto object-contain -translate-y-[5px] translate-x-[4px] transition-transform duration-300 hover:scale-125 cursor-pointer"
+            className="h-8 sm:h-12 w-auto object-contain flex-shrink-0 -translate-y-[3px] sm:-translate-y-[5px] translate-x-[2px] sm:translate-x-[4px] transition-transform duration-300 hover:scale-125 cursor-pointer"
           />
         </div>
       </CardContent>
