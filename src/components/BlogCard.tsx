@@ -80,7 +80,7 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
   };
 
   return (
-    <Card className="glass-card border-0 transition-all duration-300 hover:scale-[1.02] mx-2 sm:mx-0">
+    <Card className="glass-card border-0 transition-all duration-300 hover:scale-[1.02] mx-3 sm:mx-0 max-w-[calc(100vw-24px)] sm:max-w-none">
       <CardHeader>
         <div className="flex justify-between items-start mb-2">
           <CardTitle className="text-2xl md:text-3xl font-bold text-black relative group overflow-hidden cursor-pointer">
@@ -138,7 +138,7 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
           <img 
             src="/lovable-uploads/0aeeda89-42d2-40a0-a002-0fc3c823c55c.png" 
             alt="Clive Verified" 
-            className="h-9 sm:h-12 w-auto object-contain flex-shrink-0 -translate-y-[5px] transition-transform duration-300 hover:scale-125 cursor-pointer"
+            className="h-10 sm:h-12 w-auto object-contain flex-shrink-0 -translate-y-[5px] translate-x-[2px] sm:-translate-y-[3px] sm:translate-x-[3px] transition-transform duration-300 hover:scale-125 cursor-pointer"
           />
         </div>
       </CardContent>
