@@ -109,7 +109,7 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
           )}
         </div>
         <div className="flex gap-4 text-sm text-muted-foreground">
-          <span>{new Date(post.created_at).toLocaleString()}</span>
+          <span>{new Date(post.created_at).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}</span>
         </div>
       </CardHeader>
       <CardContent>

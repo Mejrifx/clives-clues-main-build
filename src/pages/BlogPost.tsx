@@ -153,7 +153,7 @@ const BlogPost = () => {
               <div className="flex items-center gap-6 text-muted-foreground mt-4">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  <span>{post.created_at ? new Date(post.created_at).toLocaleString() : 'No date'}</span>
+                  <span>{post.created_at ? new Date(post.created_at).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' }) : 'No date'}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <User className="h-4 w-4" />

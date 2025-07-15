@@ -516,7 +516,7 @@ const Admin = () => {
                           <h3 className="font-semibold text-lg mb-2">{post.title}</h3>
                           <p className="text-sm text-foreground/80 mb-2">{post.summary}</p>
                           <div className="text-xs text-foreground/60 flex gap-4">
-                            <span>Created: {new Date(post.created_at).toLocaleString()}</span>
+                            <span>Created: {new Date(post.created_at).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}</span>
                             {post.is_ai_generated && (
                               <span className="text-purple-400 text-xs font-medium">
                                 AI Generated
