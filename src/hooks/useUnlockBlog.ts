@@ -18,6 +18,13 @@ export const useUnlockBlog = (blogId: string) => {
         return;
       }
 
+      // Admin account has access to all blogs automatically
+      if (user.email === 'cliveonabs@outlook.com') {
+        setIsUnlocked(true);
+        setLoading(false);
+        return;
+      }
+
       try {
         // Direct database query instead of RPC
         const { data, error } = await supabase
@@ -53,6 +60,15 @@ export const useUnlockBlog = (blogId: string) => {
         variant: "destructive",
       });
       return false;
+    }
+
+    // Admin account already has all blogs unlocked
+    if (user.email === 'cliveonabs@outlook.com') {
+      toast({
+        title: "Admin Access",
+        description: "Admin account has automatic access to all content.",
+      });
+      return true;
     }
 
     if (score < 100) {
