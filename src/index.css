@@ -151,14 +151,18 @@ All colors MUST be HSL.
     color: #000000;
     background: linear-gradient(90deg, #000000 0%, #000000 35%, #ffffff 50%, #000000 65%, #000000 100%);
     background-size: 300% 100%;
-    background-position: 150% 50%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    transition: background-position 2800ms ease-in-out;
+    animation: text-glare 3.5s ease-in-out infinite;
   }
   
-  .text-glare-effect:hover {
-    background-position: -50% 50%;
+  @keyframes text-glare {
+    0%, 80% {
+      background-position: 150% 50%;
+    }
+    40% {
+      background-position: -50% 50%;
+    }
   }
 }
