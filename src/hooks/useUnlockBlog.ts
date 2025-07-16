@@ -110,6 +110,14 @@ export const useUnlockBlog = (blogId: string) => {
       console.log('User email:', user?.email);
       console.log('User authenticated:', !!user);
       
+      // Check Supabase session
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      console.log('🔑 Supabase session check:');
+      console.log('Session exists:', !!session);
+      console.log('Session user ID:', session?.user?.id);
+      console.log('Session access token exists:', !!session?.access_token);
+      console.log('Session error:', sessionError);
+      
       // Use the database function for proper UUID handling
       const { data, error } = await supabase
         .rpc('unlock_blog_v2', {

@@ -130,6 +130,13 @@ export type Database = {
         }
         Returns: boolean
       }
+      unlock_blog_v2: {
+        Args: {
+          blog_id: string
+          score: number
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
