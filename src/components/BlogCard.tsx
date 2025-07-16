@@ -137,7 +137,7 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
           <img 
             src="/lovable-uploads/0aeeda89-42d2-40a0-a002-0fc3c823c55c.png" 
             alt="Clive Verified" 
-            className="h-12 w-auto object-contain flex-shrink-0 -translate-y-[0.3125rem] md:-translate-y-[0.25rem] md:translate-x-2 md:scale-125 cursor-pointer"
+            className="h-12 w-auto object-contain flex-shrink-0 -translate-y-[0.1875rem] md:-translate-y-[0.25rem] md:translate-x-2 md:scale-125 cursor-pointer"
           />
         </div>
       </CardContent>
