@@ -3,6 +3,14 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
+// Type definition for unlock_blog function response
+interface UnlockBlogResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+}
+
+// Force rebuild: Updated 2025-01-19 with corrected function parameters
 export const useUnlockBlog = (blogId: string) => {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -37,7 +45,7 @@ export const useUnlockBlog = (blogId: string) => {
         // Use the database function for proper UUID handling
         const { data, error } = await supabase
           .rpc('has_unlocked_blog', {
-            blog_id: blogId
+            target_blog_id: blogId
           });
 
         if (error) {
@@ -121,8 +129,8 @@ export const useUnlockBlog = (blogId: string) => {
       // Use the database function for proper UUID handling
       const { data, error } = await supabase
         .rpc('unlock_blog', {
-          blog_id: blogId,
-          score: score
+          target_blog_id: blogId,
+          game_score: score
         });
 
       if (error) {
@@ -154,22 +162,24 @@ export const useUnlockBlog = (blogId: string) => {
       // Handle the JSON response from the new function
       console.log('🎯 Function response data:', data);
       
-      if (data && data.success === false) {
-        console.error('Function returned error:', data.error);
+      const response = data as unknown as UnlockBlogResponse;
+      
+      if (response && response.success === false) {
+        console.error('Function returned error:', response.error);
         toast({
           title: "Unlock Failed",
-          description: data.error || "Unknown error occurred",
+          description: response.error || "Unknown error occurred",
           variant: "destructive",
         });
         return false;
       }
 
-      if (data && data.success === true) {
+      if (response && response.success === true) {
         // Force update the state and ensure component re-renders
         setIsUnlocked(true);
         toast({
           title: "🎉 Blog Unlocked!",
-          description: data.message || `Congratulations! You scored ${score} points and unlocked the full content.`,
+          description: response.message || `Congratulations! You scored ${score} points and unlocked the full content.`,
         });
         return true;
       }

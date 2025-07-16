@@ -119,35 +119,16 @@ export type Database = {
     Functions: {
       has_unlocked_blog: {
         Args: {
-          blog_id: string
+          target_blog_id: string
         }
         Returns: boolean
       }
       unlock_blog: {
         Args: {
-          blog_id: string
-          score: number
+          target_blog_id: string
+          game_score: number
         }
-        Returns: {
-          success: boolean
-          message?: string
-          error?: string
-        }
-      }
-      unlock_blog_v2: {
-        Args: {
-          blog_id: string
-          score: number
-        }
-        Returns: boolean
-      }
-      unlock_blog_v3: {
-        Args: {
-          blog_id: string
-          score: number
-          calling_user_id: string
-        }
-        Returns: boolean
+        Returns: Json
       }
     }
     Enums: {
