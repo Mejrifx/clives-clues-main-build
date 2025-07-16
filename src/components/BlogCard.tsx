@@ -135,7 +135,7 @@ const BlogCard = ({ post, onUnlockClick }: BlogCardProps) => {
         <div className="flex items-end justify-between px-4 sm:px-0 sm:gap-3 sm:justify-start w-full">
           {renderButton()}
           <img 
-            src="/lovable-uploads/0aeeda89-42d2-40a0-a002-0fc3c823c55c.png" 
+            src="/clive-verified-image.png" 
             alt="Clive Verified" 
             className="h-12 w-auto object-contain flex-shrink-0 -translate-y-[0.1875rem] md:-translate-y-[0.25rem] md:translate-x-2 md:scale-125 cursor-pointer"
           />
