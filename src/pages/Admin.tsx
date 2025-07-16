@@ -495,7 +495,7 @@ const Admin = () => {
                         setSelectedImages(Array.from(files));
                       }
                     }}
-                    className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                    className="file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
                   />
                   {selectedImages.length > 0 && (
                     <div className="mt-2 text-sm text-foreground/70">
