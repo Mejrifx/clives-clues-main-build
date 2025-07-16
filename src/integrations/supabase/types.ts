@@ -137,6 +137,14 @@ export type Database = {
         }
         Returns: boolean
       }
+      unlock_blog_v3: {
+        Args: {
+          blog_id: string
+          score: number
+          calling_user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

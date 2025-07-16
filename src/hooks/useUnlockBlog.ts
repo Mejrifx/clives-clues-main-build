@@ -120,9 +120,10 @@ export const useUnlockBlog = (blogId: string) => {
       
       // Use the database function for proper UUID handling
       const { data, error } = await supabase
-        .rpc('unlock_blog_v2', {
+        .rpc('unlock_blog_v3', {
           blog_id: blogId,
-          score: score
+          score: score,
+          calling_user_id: user.id
         });
 
       if (error) {
