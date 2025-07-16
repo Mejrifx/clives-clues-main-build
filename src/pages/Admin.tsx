@@ -155,12 +155,20 @@ const Admin = () => {
         }
       }
 
+      // Format content to preserve line breaks and paragraphs
+      const formattedContent = blogForm.content
+        .replace(/\n\n/g, '</p><p>')  // Convert double line breaks to paragraph breaks
+        .replace(/\n/g, '<br>')       // Convert single line breaks to <br> tags
+        .replace(/^/, '<p>')          // Add opening paragraph tag at start
+        .replace(/$/, '</p>')         // Add closing paragraph tag at end
+        .replace(/<br><\/p><p>/g, '</p><p>'); // Clean up any br tags before paragraph breaks
+
       const { error } = await supabase
         .from('posts')
         .insert({
           title: blogForm.title,
           summary: blogForm.summary,
-          content: blogForm.content,
+          content: formattedContent,
           images: imageUrls,
           is_ai_generated: false
         });
