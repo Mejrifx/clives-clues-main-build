@@ -120,10 +120,9 @@ export const useUnlockBlog = (blogId: string) => {
       
       // Use the database function for proper UUID handling
       const { data, error } = await supabase
-        .rpc('unlock_blog_v3', {
+        .rpc('unlock_blog', {
           blog_id: blogId,
-          score: score,
-          calling_user_id: user.id
+          score: score
         });
 
       if (error) {
@@ -152,12 +151,25 @@ export const useUnlockBlog = (blogId: string) => {
         return false;
       }
 
-      if (data) {
+      // Handle the JSON response from the new function
+      console.log('🎯 Function response data:', data);
+      
+      if (data && data.success === false) {
+        console.error('Function returned error:', data.error);
+        toast({
+          title: "Unlock Failed",
+          description: data.error || "Unknown error occurred",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      if (data && data.success === true) {
         // Force update the state and ensure component re-renders
         setIsUnlocked(true);
         toast({
           title: "🎉 Blog Unlocked!",
-          description: `Congratulations! You scored ${score} points and unlocked the full content.`,
+          description: data.message || `Congratulations! You scored ${score} points and unlocked the full content.`,
         });
         return true;
       }

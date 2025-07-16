@@ -128,7 +128,11 @@ export type Database = {
           blog_id: string
           score: number
         }
-        Returns: boolean
+        Returns: {
+          success: boolean
+          message?: string
+          error?: string
+        }
       }
       unlock_blog_v2: {
         Args: {
