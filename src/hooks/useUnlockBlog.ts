@@ -104,6 +104,12 @@ export const useUnlockBlog = (blogId: string) => {
     setUnlocking(true);
 
     try {
+      console.log('🔐 Authentication check:');
+      console.log('User object:', user);
+      console.log('User ID:', user?.id);
+      console.log('User email:', user?.email);
+      console.log('User authenticated:', !!user);
+      
       // Use the database function for proper UUID handling
       const { data, error } = await supabase
         .rpc('unlock_blog', {
