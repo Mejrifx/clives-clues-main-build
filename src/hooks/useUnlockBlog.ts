@@ -113,11 +113,25 @@ export const useUnlockBlog = (blogId: string) => {
 
       if (error) {
         console.error('Error unlocking blog:', error);
+        console.error('Error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
         console.error('BlogId being unlocked:', blogId);
         console.error('Score:', score);
+        
+        let errorMessage = "Failed to unlock the blog. Please try again.";
+        if (error.message?.includes('does not exist')) {
+          errorMessage = "This blog post no longer exists.";
+        } else if (error.message?.includes('must be authenticated')) {
+          errorMessage = "Please sign in to unlock blog content.";
+        }
+        
         toast({
           title: "Unlock Failed",
-          description: "Failed to unlock the blog. Please try again.",
+          description: errorMessage,
           variant: "destructive",
         });
         return false;

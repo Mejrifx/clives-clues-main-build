@@ -20,6 +20,17 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE FUNCTION public.unlock_blog(blog_id UUID, score INTEGER)
 RETURNS BOOLEAN AS $$
 BEGIN
+  -- First check if the blog post exists
+  IF NOT EXISTS (SELECT 1 FROM public.posts WHERE id = unlock_blog.blog_id) THEN
+    RAISE EXCEPTION 'Blog post with ID % does not exist', unlock_blog.blog_id;
+  END IF;
+  
+  -- Check if user is authenticated
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'User must be authenticated to unlock blogs';
+  END IF;
+  
+  -- Insert the unlock record
   INSERT INTO public.unlocked_blogs (user_id, blog_id, game_score)
   VALUES (auth.uid(), unlock_blog.blog_id, unlock_blog.score)
   ON CONFLICT (user_id, blog_id) DO NOTHING;
