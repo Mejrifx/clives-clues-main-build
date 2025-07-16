@@ -26,15 +26,13 @@ export const useUnlockBlog = (blogId: string) => {
       }
 
       try {
-        // Direct database query instead of RPC
+        // Use the database function for proper UUID handling
         const { data, error } = await supabase
-          .from('unlocked_blogs')
-          .select('id')
-          .eq('user_id', user.id)
-          .eq('blog_id', blogId)
-          .maybeSingle();
+          .rpc('has_unlocked_blog', {
+            blog_id: blogId
+          });
 
-        if (error && error.code !== 'PGRST116') { // PGRST116 is "not found" which is fine
+        if (error) {
           console.error('Error checking unlock status:', error);
           setIsUnlocked(false);
         } else {
@@ -83,37 +81,21 @@ export const useUnlockBlog = (blogId: string) => {
     setUnlocking(true);
 
     try {
-      // Direct database insert instead of RPC
+      // Use the database function for proper UUID handling
       const { data, error } = await supabase
-        .from('unlocked_blogs')
-        .insert({
-          user_id: user.id,
+        .rpc('unlock_blog', {
           blog_id: blogId,
-          game_score: score,
-          unlocked_at: new Date().toISOString()
-        })
-        .select()
-        .single();
+          score: score
+        });
 
       if (error) {
-        // Check if it's a duplicate entry (user already unlocked this blog)
-        if (error.code === '23505') {
-          // Duplicate entry - user already unlocked this blog
-          setIsUnlocked(true);
-          toast({
-            title: "🎉 Blog Already Unlocked!",
-            description: "You've already unlocked this blog content.",
-          });
-          return true;
-        } else {
-          console.error('Error unlocking blog:', error);
-          toast({
-            title: "Unlock Failed",
-            description: "Failed to unlock the blog. Please try again.",
-            variant: "destructive",
-          });
-          return false;
-        }
+        console.error('Error unlocking blog:', error);
+        toast({
+          title: "Unlock Failed",
+          description: "Failed to unlock the blog. Please try again.",
+          variant: "destructive",
+        });
+        return false;
       }
 
       if (data) {
