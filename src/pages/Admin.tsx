@@ -467,7 +467,12 @@ const Admin = () => {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="content">Full Post Content</Label>
+                  <Label htmlFor="content">
+                    Full Post Content 
+                    <span className="text-sm font-normal text-foreground/60 ml-2">
+                      (Line breaks: Enter twice → new paragraphs)
+                    </span>
+                  </Label>
                   <Textarea
                     id="content"
                     value={blogForm.content}
