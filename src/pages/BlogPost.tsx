@@ -22,8 +22,8 @@ const BlogPost = () => {
   const [error, setError] = useState<string | null>(null);
   const [gameDialogOpen, setGameDialogOpen] = useState(false);
   
-  // Use the unlock hook only if we have an ID
-  const { isUnlocked, loading: unlockLoading, unlockBlog } = useUnlockBlog(id || '');
+  // Use the unlock hook only if we have a valid ID
+  const { isUnlocked, loading: unlockLoading, unlockBlog } = useUnlockBlog(id && id.length > 0 ? id : 'skip');
 
   useEffect(() => {
     const fetchPost = async () => {

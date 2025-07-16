@@ -22,8 +22,8 @@ interface Target {
   points: number;
 }
 
-const UnlockAlpha = ({ isOpen, onClose, onComplete, blogTitle, blogId }: UnlockAlphaProps) => {
-  const { unlockBlog } = useUnlockBlog(blogId);
+const UnlockAlpha = ({ isOpen, onClose, onComplete, blogTitle = "Exclusive Content", blogId = "" }: UnlockAlphaProps) => {
+  const { unlockBlog } = useUnlockBlog(blogId && blogId.length > 0 ? blogId : 'skip');
   const [gameState, setGameState] = useState<'waiting' | 'playing' | 'finished'>('waiting');
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);

@@ -13,7 +13,7 @@ export const useUnlockBlog = (blogId: string) => {
   // Check if blog is unlocked
   useEffect(() => {
     const checkUnlockStatus = async () => {
-      if (!user || !blogId) {
+      if (!user || !blogId || blogId === 'skip') {
         setLoading(false);
         return;
       }
@@ -21,6 +21,14 @@ export const useUnlockBlog = (blogId: string) => {
       // Admin account has access to all blogs automatically
       if (user.email === 'cliveonabs@outlook.com') {
         setIsUnlocked(true);
+        setLoading(false);
+        return;
+      }
+
+      // Validate UUID format before making the call
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      if (!uuidRegex.test(blogId)) {
+        console.log('Invalid UUID format for blogId:', blogId);
         setLoading(false);
         return;
       }
@@ -34,12 +42,15 @@ export const useUnlockBlog = (blogId: string) => {
 
         if (error) {
           console.error('Error checking unlock status:', error);
+          console.error('BlogId being checked:', blogId);
+          console.error('User ID:', user?.id);
           setIsUnlocked(false);
         } else {
           setIsUnlocked(!!data); // Convert to boolean
         }
       } catch (error) {
         console.error('Error checking unlock status:', error);
+        console.error('BlogId that caused error:', blogId);
         setIsUnlocked(false);
       } finally {
         setLoading(false);
@@ -51,7 +62,7 @@ export const useUnlockBlog = (blogId: string) => {
 
   // Unlock a blog with score
   const unlockBlog = async (score: number): Promise<boolean> => {
-    if (!user || !blogId) {
+    if (!user || !blogId || blogId === 'skip') {
       toast({
         title: "Authentication Required",
         description: "Please sign in to unlock blog content.",
@@ -67,6 +78,18 @@ export const useUnlockBlog = (blogId: string) => {
         description: "Admin account has automatic access to all content.",
       });
       return true;
+    }
+
+    // Validate UUID format before making the call
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(blogId)) {
+      console.error('Invalid UUID format for blogId in unlock:', blogId);
+      toast({
+        title: "Invalid Blog ID",
+        description: "Unable to unlock - invalid blog identifier.",
+        variant: "destructive",
+      });
+      return false;
     }
 
     if (score < 100) {
@@ -90,6 +113,8 @@ export const useUnlockBlog = (blogId: string) => {
 
       if (error) {
         console.error('Error unlocking blog:', error);
+        console.error('BlogId being unlocked:', blogId);
+        console.error('Score:', score);
         toast({
           title: "Unlock Failed",
           description: "Failed to unlock the blog. Please try again.",
@@ -111,6 +136,7 @@ export const useUnlockBlog = (blogId: string) => {
       return false;
     } catch (error) {
       console.error('Error unlocking blog:', error);
+      console.error('BlogId that caused unlock error:', blogId);
       toast({
         title: "Unlock Failed",
         description: "An unexpected error occurred. Please try again.",
