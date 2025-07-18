@@ -8,6 +8,7 @@ import type { Tables } from '@/integrations/supabase/types';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUnlockBlog } from '@/hooks/useUnlockBlog';
 import UnlockAlpha from '@/components/UnlockAlpha';
+import CliveUnlockPopup from '@/components/CliveUnlockPopup';
 
 // Clear cache for Clock error fix
 
@@ -21,9 +22,18 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [gameDialogOpen, setGameDialogOpen] = useState(false);
+  const [clivePopupOpen, setClivePopupOpen] = useState(false);
   
-  // Use the unlock hook only if we have a valid ID
-  const { isUnlocked, loading: unlockLoading, unlockBlog } = useUnlockBlog(id && id.length > 0 ? id : 'skip');
+  // Custom desktop unlock handler
+  const handleDesktopUnlock = (blogId: string, blogTitle: string) => {
+    setClivePopupOpen(true);
+  };
+  
+  // Use the unlock hook with desktop popup callback
+  const { isUnlocked, loading: unlockLoading, unlockBlog } = useUnlockBlog(
+    id && id.length > 0 ? id : 'skip', 
+    handleDesktopUnlock
+  );
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -69,7 +79,7 @@ const BlogPost = () => {
 
   const handleGameComplete = async (score: number) => {
     if (score >= 100) {
-      const success = await unlockBlog(score);
+      const success = await unlockBlog(score, post?.title || '');
       if (success) {
         // Close the game dialog immediately after successful unlock
         setGameDialogOpen(false);
@@ -91,6 +101,10 @@ const BlogPost = () => {
 
   const handleGameClose = () => {
     setGameDialogOpen(false);
+  };
+
+  const handleClivePopupClose = () => {
+    setClivePopupOpen(false);
   };
 
   const dynamicBackgroundStyle = {
@@ -289,6 +303,16 @@ const BlogPost = () => {
           onComplete={handleGameComplete}
           blogTitle={post.title || 'Blog Post'}
           blogId={post.id}
+        />
+      )}
+
+      {/* Desktop Clive Unlock Popup */}
+      {post && (
+        <CliveUnlockPopup
+          isOpen={clivePopupOpen}
+          onClose={handleClivePopupClose}
+          blogId={post.id}
+          blogTitle={post.title || 'Blog Post'}
         />
       )}
     </div>

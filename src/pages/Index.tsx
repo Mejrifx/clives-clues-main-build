@@ -10,6 +10,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import BlogCard from '@/components/BlogCard';
 import UnlockAlpha from '@/components/UnlockAlpha';
+import CliveUnlockPopup from '@/components/CliveUnlockPopup';
 
 // Force rebuild to clear blogPosts cache
 
@@ -27,6 +28,8 @@ const Index = () => {
   });
   const [gameDialogOpen, setGameDialogOpen] = useState(false);
   const [selectedBlogForUnlock, setSelectedBlogForUnlock] = useState<any>(null);
+  const [clivePopupOpen, setClivePopupOpen] = useState(false);
+  const [unlockedBlogForPopup, setUnlockedBlogForPopup] = useState<any>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -80,11 +83,21 @@ const Index = () => {
 
   const handleGameComplete = async (score: number) => {
     if (selectedBlogForUnlock && score >= 100) {
-      // Game completed successfully - close dialog and navigate to blog
+      // Check if we're on desktop (non-mobile device)
+      const isDesktop = window.innerWidth >= 768 && !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+      
+      // Game completed successfully - close dialog
       setGameDialogOpen(false);
       setSelectedBlogForUnlock(null);
-      // Navigate to the blog post (it will show unlocked content)
-      navigate(`/blog/${selectedBlogForUnlock.id}`);
+      
+      if (isDesktop) {
+        // Show custom Clive popup on desktop
+        setUnlockedBlogForPopup(selectedBlogForUnlock);
+        setClivePopupOpen(true);
+      } else {
+        // Navigate directly on mobile (standard toast will be shown by useUnlockBlog)
+        navigate(`/blog/${selectedBlogForUnlock.id}`);
+      }
     } else {
       // Score too low - close dialog after delay
       setTimeout(() => {
@@ -97,6 +110,11 @@ const Index = () => {
   const handleGameClose = () => {
     setGameDialogOpen(false);
     setSelectedBlogForUnlock(null);
+  };
+
+  const handleClivePopupClose = () => {
+    setClivePopupOpen(false);
+    setUnlockedBlogForPopup(null);
   };
 
   const dynamicBackgroundStyle = {
@@ -124,7 +142,9 @@ const Index = () => {
                  0px 0px 4px rgba(0,0,0,0.1)
                `
              }}>
-            Decoding Abstract Chain | One post at a time
+            <span className="text-glare-effect">
+              Decoding Abstract Chain | One post at a time
+            </span>
           </p>
         </div>
       </header>
@@ -296,6 +316,16 @@ const Index = () => {
           onComplete={handleGameComplete}
           blogTitle={selectedBlogForUnlock.title}
           blogId={selectedBlogForUnlock.id}
+        />
+      )}
+
+      {/* Desktop Clive Unlock Popup */}
+      {unlockedBlogForPopup && (
+        <CliveUnlockPopup
+          isOpen={clivePopupOpen}
+          onClose={handleClivePopupClose}
+          blogId={unlockedBlogForPopup.id}
+          blogTitle={unlockedBlogForPopup.title}
         />
       )}
     </div>
