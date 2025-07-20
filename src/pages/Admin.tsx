@@ -24,6 +24,11 @@ const Admin = () => {
   const [showPreview, setShowPreview] = useState(false);
   const { toast } = useToast();
 
+  // Scroll to top when component mounts (fixes redirect landing at bottom)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Check if user is already authenticated on page load
   useEffect(() => {
     const checkAuth = async () => {
@@ -370,7 +375,7 @@ const Admin = () => {
             
             <Card className="glass-card border-white/20">
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl gradient-text">Admin Access</CardTitle>
+                <CardTitle className="text-2xl font-bold text-black">Admin Access</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleLogin} className="space-y-4">
@@ -423,7 +428,7 @@ const Admin = () => {
     <div className="min-h-screen scroll-gradient">
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold gradient-text">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold text-black">Admin Dashboard</h1>
           <div className="flex gap-4">
             <Link to="/">
               <Button variant="outline">

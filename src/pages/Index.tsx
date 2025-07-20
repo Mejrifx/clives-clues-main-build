@@ -11,6 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import BlogCard from '@/components/BlogCard';
 import UnlockAlpha from '@/components/UnlockAlpha';
 import CliveUnlockPopup from '@/components/CliveUnlockPopup';
+import { useUnlockBlog } from '@/hooks/useUnlockBlog';
 
 // Force rebuild to clear blogPosts cache
 
@@ -30,6 +31,18 @@ const Index = () => {
   const [selectedBlogForUnlock, setSelectedBlogForUnlock] = useState<any>(null);
   const [clivePopupOpen, setClivePopupOpen] = useState(false);
   const [unlockedBlogForPopup, setUnlockedBlogForPopup] = useState<any>(null);
+
+  // Custom unlock handler for Clive popup (works on both desktop and mobile)
+  const handleUnlockPopup = (blogId: string, blogTitle: string) => {
+    setUnlockedBlogForPopup({ id: blogId, title: blogTitle });
+    setClivePopupOpen(true);
+  };
+  
+  // Use the unlock hook with popup callback
+  const { unlockBlog } = useUnlockBlog(
+    selectedBlogForUnlock?.id || 'skip', 
+    handleUnlockPopup
+  );
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -83,27 +96,23 @@ const Index = () => {
 
   const handleGameComplete = async (score: number) => {
     if (selectedBlogForUnlock && score >= 100) {
-      // Check if we're on desktop (non-mobile device)
-      const isDesktop = window.innerWidth >= 768 && !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+      // Actually unlock the blog in the database
+      const success = await unlockBlog(score, selectedBlogForUnlock.title);
       
-      // Game completed successfully - close dialog
-      setGameDialogOpen(false);
-      setSelectedBlogForUnlock(null);
-      
-      if (isDesktop) {
-        // Show custom Clive popup on desktop
-        setUnlockedBlogForPopup(selectedBlogForUnlock);
-        setClivePopupOpen(true);
-      } else {
-        // Navigate directly on mobile (standard toast will be shown by useUnlockBlog)
-        navigate(`/blog/${selectedBlogForUnlock.id}`);
-      }
-    } else {
-      // Score too low - close dialog after delay
-      setTimeout(() => {
+      if (success) {
+        // Close the game dialog immediately
         setGameDialogOpen(false);
         setSelectedBlogForUnlock(null);
-      }, 1000);
+        // The unlock hook will automatically show the Clive popup via handleUnlockPopup
+      } else {
+        // If unlock failed, close dialog immediately
+        setGameDialogOpen(false);
+        setSelectedBlogForUnlock(null);
+      }
+    } else {
+      // Score too low - close dialog immediately
+      setGameDialogOpen(false);
+      setSelectedBlogForUnlock(null);
     }
   };
 
@@ -142,7 +151,7 @@ const Index = () => {
                  0px 0px 4px rgba(0,0,0,0.1)
                `
              }}>
-            <span className="text-glare-effect">
+            <span className="text-glare-effect-slow">
               Decoding Abstract Chain | One post at a time
             </span>
           </p>

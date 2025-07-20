@@ -24,15 +24,15 @@ const BlogPost = () => {
   const [gameDialogOpen, setGameDialogOpen] = useState(false);
   const [clivePopupOpen, setClivePopupOpen] = useState(false);
   
-  // Custom desktop unlock handler
-  const handleDesktopUnlock = (blogId: string, blogTitle: string) => {
+  // Custom unlock handler for Clive popup (works on both desktop and mobile)
+  const handleUnlockPopup = (blogId: string, blogTitle: string) => {
     setClivePopupOpen(true);
   };
   
-  // Use the unlock hook with desktop popup callback
+  // Use the unlock hook with popup callback
   const { isUnlocked, loading: unlockLoading, unlockBlog } = useUnlockBlog(
     id && id.length > 0 ? id : 'skip', 
-    handleDesktopUnlock
+    handleUnlockPopup
   );
 
   useEffect(() => {
@@ -86,16 +86,12 @@ const BlogPost = () => {
         // The hook will automatically update isUnlocked state
         // and the component will re-render with unlocked content
       } else {
-        // If unlock failed, close dialog after delay
-        setTimeout(() => {
-          setGameDialogOpen(false);
-        }, 1000);
+        // If unlock failed, close dialog immediately
+        setGameDialogOpen(false);
       }
     } else {
-      // Score too low, close dialog after delay
-      setTimeout(() => {
-        setGameDialogOpen(false);
-      }, 1000);
+      // Score too low, close dialog immediately
+      setGameDialogOpen(false);
     }
   };
 

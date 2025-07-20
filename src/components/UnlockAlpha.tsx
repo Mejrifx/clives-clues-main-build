@@ -4,7 +4,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 import { X, Target, Zap, Trophy } from 'lucide-react';
-import { useUnlockBlog } from '@/hooks/useUnlockBlog';
 
 interface UnlockAlphaProps {
   isOpen: boolean;
@@ -23,7 +22,6 @@ interface Target {
 }
 
 const UnlockAlpha = ({ isOpen, onClose, onComplete, blogTitle = "Exclusive Content", blogId = "" }: UnlockAlphaProps) => {
-  const { unlockBlog } = useUnlockBlog(blogId && blogId.length > 0 ? blogId : 'skip');
   const [gameState, setGameState] = useState<'waiting' | 'playing' | 'finished'>('waiting');
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);
@@ -143,36 +141,13 @@ const UnlockAlpha = ({ isOpen, onClose, onComplete, blogTitle = "Exclusive Conte
     return () => clearInterval(removalTimer);
   }, [gameState]);
 
-  // Handle game completion
+  // Handle game completion - call onComplete immediately when game ends
   useEffect(() => {
     if (gameState === 'finished') {
-      // Handle the unlock logic here
-      const handleUnlock = async () => {
-        if (score >= UNLOCK_THRESHOLD) {
-          // Unlock the blog in the database
-          const success = await unlockBlog(score);
-          if (success) {
-            // Wait a moment before calling onComplete
-            setTimeout(() => {
-              onComplete(score);
-            }, 1000);
-          } else {
-            // If unlock failed, still call onComplete but with a lower score
-            setTimeout(() => {
-              onComplete(0);
-            }, 1000);
-          }
-        } else {
-          // Score too low, call onComplete with actual score
-          setTimeout(() => {
-            onComplete(score);
-          }, 1000);
-        }
-      };
-
-      handleUnlock();
+      // Immediately call onComplete and close the game
+      onComplete(score);
     }
-  }, [gameState, score, onComplete, unlockBlog]);
+  }, [gameState, score, onComplete]);
 
   const progressPercentage = (timeLeft / GAME_DURATION) * 100;
   const scorePercentage = Math.min((score / UNLOCK_THRESHOLD) * 100, 100);
@@ -291,46 +266,6 @@ const UnlockAlpha = ({ isOpen, onClose, onComplete, blogTitle = "Exclusive Conte
                 )}
               </div>
             </div>
-          )}
-
-          {gameState === 'finished' && (
-            <Card className="glass-card border-0 h-full flex items-center justify-center">
-              <CardContent className="text-center space-y-6">
-                <div className="space-y-4">
-                  {score >= UNLOCK_THRESHOLD ? (
-                    <>
-                      <Trophy className="h-16 w-16 mx-auto text-yellow-500" />
-                      <CardTitle className="text-2xl text-green-600">Challenge Complete!</CardTitle>
-                      <CardDescription className="text-lg">
-                        Congratulations! You scored {score} points and unlocked the blog!
-                      </CardDescription>
-                    </>
-                  ) : (
-                    <>
-                      <Target className="h-16 w-16 mx-auto text-muted-foreground" />
-                      <CardTitle className="text-2xl text-orange-600">So Close!</CardTitle>
-                      <CardDescription className="text-lg">
-                        You scored {score} points. You need {UNLOCK_THRESHOLD}+ to unlock the content.
-                      </CardDescription>
-                    </>
-                  )}
-                </div>
-                
-                <div className="flex justify-center gap-4">
-                  {score < UNLOCK_THRESHOLD && (
-                    <Button 
-                      onClick={startGame}
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
-                    >
-                      Try Again
-                    </Button>
-                  )}
-                  <Button variant="outline" onClick={onClose}>
-                    {score >= UNLOCK_THRESHOLD ? 'Continue' : 'Close'}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
           )}
         </div>
       </DialogContent>

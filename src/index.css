@@ -157,6 +157,16 @@ All colors MUST be HSL.
     animation: text-glare 5.5s ease-in-out infinite;
   }
   
+  .text-glare-effect-slow {
+    color: #000000;
+    background: linear-gradient(90deg, #000000 0%, #000000 35%, #ffffff 50%, #000000 65%, #000000 100%);
+    background-size: 300% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: text-glare-slow 5s ease-in-out infinite;
+  }
+  
   @keyframes text-glare {
     0% {
       background-position: 150% 50%;
@@ -165,6 +175,18 @@ All colors MUST be HSL.
       background-position: -50% 50%;
     }
     50.1%, 100% {
+      background-position: 150% 50%;
+    }
+  }
+  
+  @keyframes text-glare-slow {
+    0% {
+      background-position: 150% 50%;
+    }
+    60% {
+      background-position: -50% 50%;
+    }
+    60.1%, 100% {
       background-position: 150% 50%;
     }
   }

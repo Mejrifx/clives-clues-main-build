@@ -10,13 +10,8 @@ interface UnlockBlogResponse {
   error?: string;
 }
 
-// Check if user is on desktop (non-mobile device)
-const isDesktop = () => {
-  return window.innerWidth >= 768 && !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-};
-
 // Force rebuild: Updated 2025-01-19 with corrected function parameters
-export const useUnlockBlog = (blogId: string, onDesktopUnlock?: (blogId: string, blogTitle: string) => void) => {
+export const useUnlockBlog = (blogId: string, onUnlockPopup?: (blogId: string, blogTitle: string) => void) => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [isUnlocked, setIsUnlocked] = useState<boolean>(false);
@@ -183,12 +178,12 @@ export const useUnlockBlog = (blogId: string, onDesktopUnlock?: (blogId: string,
         // Force update the state and ensure component re-renders
         setIsUnlocked(true);
         
-        // Check if we're on desktop and have a custom popup callback
-        if (isDesktop() && onDesktopUnlock && blogTitle) {
-          // Use custom desktop popup instead of toast
-          onDesktopUnlock(blogId, blogTitle);
+        // Check if we have a custom popup callback (works on both desktop and mobile)
+        if (onUnlockPopup && blogTitle) {
+          // Use custom popup instead of toast - don't show toast notification
+          onUnlockPopup(blogId, blogTitle);
         } else {
-          // Use toast for mobile or when no custom popup is available
+          // Use toast only when no custom popup is available
           toast({
             title: "🎉 Blog Unlocked!",
             description: response.message || `Congratulations! You scored ${score} points and unlocked the full content.`,
